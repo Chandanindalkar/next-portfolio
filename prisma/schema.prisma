@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client"
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String    // Hashed
+  createdAt DateTime  @default(now())
+  sessions  Session[]
+}
+
+model Project {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  techStack     String[] // Array of technologies
+  role          String
+  contributions String
+  imageUrls     String[] // Array of image URLs
+  order         Int      // For sorting
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Skill {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  startDate  DateTime // To calculate experience
+  category   String?  // Optional for future categorization
+  createdAt  DateTime @default(now())
+}
+
+model BikeTrip {
+  id          String   @id @default(uuid())
+  location    String
+  latitude    Float
+  longitude   Float
+  date        DateTime
+  distance    Float?   // in km
+  description String?
+  imageUrls   String[]
+  createdAt   DateTime @default(now())
+}
+
+model BikeMaintenance {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  beforeImages String[]
+  afterImages  String[]
+  videoUrl    String?
+  date        DateTime
+  createdAt   DateTime @default(now())
+}
+
+model Watch {
+  id          String   @id @default(uuid())
+  brand       String
+  model       String
+  movement    String
+  year        Int?
+  description String?
+  imageUrls   String[]
+  specs       Json     // Flexible specs object
+  order       Int
+  createdAt   DateTime @default(now())
+}
+
+model CustomBuild {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  specs       Json
+  imageUrls   String[]
+  createdAt   DateTime @default(now())
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Analytics {
+  id           String   @id @default(uuid())
+  eventType    String   // 'page_view', 'section_view', 'click', etc.
+  eventData    Json     // Flexible data
+  sessionId    String
+  ipAddress    String?
+  country      String?
+  city         String?
+  device       String?
+  browser      String?
+  referrer     String?
+  timestamp    DateTime @default(now())
+}
+
+model BikeStats {
+  id            String @id @default(uuid())
+  totalKm       Float
+  bikesOwned    Int
+  tripsCompleted Int
+  updatedAt     DateTime @updatedAt
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
