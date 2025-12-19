@@ -42,7 +42,11 @@
     - [x] Implement "Bento Grid" style info cards (Currently/Previously/Listening)
     - [x] Skeleton for Spotify component
 - [ ] Listen/Spotify Integration
-- [ ] Skills Section
+    - [/] Implement Spotify API Route (Mock for now, skeleton exists)
+    - [ ] Create Real-time "Now Playing" Component (SSE/Polling)
+- [/] Skills Section
+    - [ ] Implement Dynamic Experience Logic (Server-side)
+    - [ ] Design Skills Layout
 - [ ] Projects Section
 - [ ] Hobbies Section
 - [ ] Contact Section

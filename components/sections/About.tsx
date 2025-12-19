@@ -1,6 +1,6 @@
 "use client";
 
-import { useGSAP } from "@/components/hooks/useGSAP";
+import { useGSAP } from "@/hooks/useGSAP";
 import BentoCard from "@/components/ui/BentoCard";
 import gsap from "gsap";
 import { useRef } from "react";

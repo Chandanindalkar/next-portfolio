@@ -1,6 +1,6 @@
 "use client";
 
-import { useGSAP } from "@/components/hooks/useGSAP";
+import { useGSAP } from "@/hooks/useGSAP";
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
 import { useRef } from "react";
