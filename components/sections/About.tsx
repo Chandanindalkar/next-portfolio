@@ -2,6 +2,7 @@
 
 import { useGSAP } from "@/hooks/useGSAP";
 import BentoCard from "@/components/ui/BentoCard";
+import SpotifyWidget from "@/components/ui/SpotifyWidget";
 import gsap from "gsap";
 import { useRef } from "react";
 
@@ -69,19 +70,7 @@ export default function About() {
 
                     {/* Listening / Spotify - Wide */}
                     <BentoCard colSpan={2} className="bento-card" title="Listening">
-                        <div className="flex h-full items-center gap-4">
-                            <div className="h-12 w-12 rounded bg-green-500 animate-pulse" /> {/* Placeholder Album Art */}
-                            <div>
-                                <p className="font-bold">Not Playing</p>
-                                <p className="text-xs text-zinc-500">Spotify</p>
-                            </div>
-                            {/* Visualizer bars placeholder */}
-                            <div className="ml-auto flex gap-1 items-end h-8">
-                                <div className="w-1 h-3 bg-green-500 rounded-full" />
-                                <div className="w-1 h-6 bg-green-500 rounded-full" />
-                                <div className="w-1 h-4 bg-green-500 rounded-full" />
-                            </div>
-                        </div>
+                        <SpotifyWidget />
                     </BentoCard>
 
                     {/* Studied - Standard */}

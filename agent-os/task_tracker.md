@@ -41,15 +41,23 @@
 - [x] About Me Section
     - [x] Implement "Bento Grid" style info cards (Currently/Previously/Listening)
     - [x] Skeleton for Spotify component
-- [ ] Listen/Spotify Integration
-    - [/] Implement Spotify API Route (Mock for now, skeleton exists)
-    - [ ] Create Real-time "Now Playing" Component (SSE/Polling)
-- [/] Skills Section
-    - [ ] Implement Dynamic Experience Logic (Server-side)
-    - [ ] Design Skills Layout
-- [ ] Projects Section
-- [ ] Hobbies Section
-- [ ] Contact Section
+- [x] Listen/Spotify Integration
+    - [x] Implement Spotify API Route (Mock active)
+    - [x] Create Real-time "Now Playing" Component (SWR Polling)
+- [x] Skills Section
+    - [x] Implement Dynamic Experience Logic (Server-side/Utils)
+    - [x] Create `lib/data.ts` with dummy data
+    - [x] Design Skills Layout with Categorized Grid
+- [x] Projects Section
+    - [x] Create `ProjectCard` component (Image, Tags, Links)
+    - [x] Add Dummy Projects to `lib/data.ts`
+    - [x] Implement Projects Grid with GSAP Reveal
+- [x] Hobbies Section
+    - [x] Add `HOBBIES_DATA`
+    - [x] Implement Horizontal Scroll/Ticker Layout
+- [x] Contact Section
+    - [x] Build Footer Layout
+    - [x] Add Copy-to-Clipboard Email Action
 
 ## Phase 5: Backend & Database
 - [ ] Implement API Routes as per PRD
