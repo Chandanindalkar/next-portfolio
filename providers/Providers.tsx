@@ -8,6 +8,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+import AnalyticsProvider from "./AnalyticsProvider";
+
 export function Providers({ children }: { children: ReactNode }) {
     useEffect(() => {
         // Initialize Lenis for smooth scrolling
@@ -35,7 +37,9 @@ export function Providers({ children }: { children: ReactNode }) {
 
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <AnalyticsProvider>
+                {children}
+            </AnalyticsProvider>
         </ThemeProvider>
     );
 }

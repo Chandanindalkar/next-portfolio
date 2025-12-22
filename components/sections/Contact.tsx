@@ -51,21 +51,86 @@ export default function Contact() {
                     </div>
                 </div>
 
-                {/* Email Action */}
-                <div className="contact-reveal mb-24 flex flex-col items-start gap-4 md:flex-row md:items-center">
-                    <button
-                        onClick={copyEmail}
-                        className="group flex items-center gap-4 rounded-full bg-white px-8 py-4 text-xl font-bold text-black transition-transform hover:scale-105 active:scale-95"
+                {/* Contact Form */}
+                <div className="contact-reveal mb-24 grid grid-cols-1 gap-12 md:grid-cols-2">
+                    <div>
+                        <button
+                            onClick={copyEmail}
+                            className="group mb-8 flex items-center gap-4 rounded-full bg-white px-8 py-4 text-xl font-bold text-black transition-transform hover:scale-105 active:scale-95"
+                        >
+                            <Mail size={24} />
+                            <span>hello@example.com</span>
+                            <span className={cn(
+                                "ml-2 rounded-full bg-black/10 px-2 py-1 text-xs transition-colors",
+                                copied ? "bg-green-500 text-white" : "text-black/50"
+                            )}>
+                                {copied ? "Copied!" : "Copy"}
+                            </span>
+                        </button>
+                        <p className="text-zinc-500">
+                            Prefer forms? Use the one on the right to send a direct message.
+                        </p>
+                    </div>
+
+                    <form
+                        onSubmit={async (e) => {
+                            e.preventDefault();
+                            const formData = new FormData(e.currentTarget);
+                            const data = Object.fromEntries(formData);
+
+                            try {
+                                const res = await fetch("/api/contact", {
+                                    method: "POST",
+                                    body: JSON.stringify(data),
+                                });
+                                if (res.ok) {
+                                    alert("Message sent successfully!");
+                                    (e.target as HTMLFormElement).reset();
+                                } else {
+                                    alert("Failed to send message.");
+                                }
+                            } catch {
+                                alert("An error occurred.");
+                            }
+                        }}
+                        className="space-y-6"
                     >
-                        <Mail size={24} />
-                        <span>hello@example.com</span>
-                        <span className={cn(
-                            "ml-2 rounded-full bg-black/10 px-2 py-1 text-xs transition-colors",
-                            copied ? "bg-green-500 text-white" : "text-black/50"
-                        )}>
-                            {copied ? "Copied!" : "Copy"}
-                        </span>
-                    </button>
+                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Name *"
+                                required
+                                className="w-full rounded-xl bg-white/5 border border-white/10 p-4 focus:outline-none focus:border-zinc-500 transition-colors"
+                            />
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email *"
+                                required
+                                className="w-full rounded-xl bg-white/5 border border-white/10 p-4 focus:outline-none focus:border-zinc-500 transition-colors"
+                            />
+                        </div>
+                        <input
+                            type="text"
+                            name="subject"
+                            placeholder="Subject"
+                            className="w-full rounded-xl bg-white/5 border border-white/10 p-4 focus:outline-none focus:border-zinc-500 transition-colors"
+                        />
+                        <textarea
+                            name="message"
+                            placeholder="Message *"
+                            required
+                            rows={4}
+                            className="w-full rounded-xl bg-white/5 border border-white/10 p-4 focus:outline-none focus:border-zinc-500 transition-colors"
+                        ></textarea>
+                        <button
+                            type="submit"
+                            className="w-full rounded-xl bg-zinc-100 py-4 font-bold text-black transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                            Send Message
+                        </button>
+                    </form>
                 </div>
 
                 {/* Footer Grid */}

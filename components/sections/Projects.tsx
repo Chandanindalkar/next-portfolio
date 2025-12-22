@@ -1,15 +1,20 @@
 "use client";
 
 import { useGSAP } from "@/hooks/useGSAP";
-import { PROJECTS_DATA } from "@/lib/data";
 import ProjectCard from "@/components/ui/ProjectCard";
 import gsap from "gsap";
 import { useRef } from "react";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Projects() {
     const containerRef = useRef<HTMLElement>(null);
+    const { data: projects, error, isLoading } = useSWR("/api/projects", fetcher);
 
     useGSAP(() => {
+        if (!projects) return;
+
         gsap.from(".project-card-container", {
             scrollTrigger: {
                 trigger: containerRef.current,
@@ -23,7 +28,9 @@ export default function Projects() {
             stagger: 0.2,
             ease: "power3.out",
         });
-    }, []);
+    }, [projects]);
+
+    if (error) return null; // Silent fail for aesthetics, or could show error
 
     return (
         <section
@@ -37,20 +44,28 @@ export default function Projects() {
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {PROJECTS_DATA.map((project, idx) => (
-                        <div key={idx} className="project-card-container">
-                            <ProjectCard
-                                title={project.title}
-                                description={project.description}
-                                tags={project.tags}
-                                imageUrl={project.imageUrl}
-                                demoUrl={project.demoUrl}
-                                repoUrl={project.repoUrl}
-                            />
-                        </div>
-                    ))}
+                    {isLoading ? (
+                        // Basic skeletons
+                        [1, 2, 3, 4].map((i) => (
+                            <div key={i} className="aspect-video w-full animate-pulse rounded-2xl bg-zinc-200 dark:bg-zinc-800" />
+                        ))
+                    ) : (
+                        (projects as { id: string; title: string; description: string; techStack: string[]; imageUrls: string[] }[])?.map((project) => (
+                            <div key={project.id} className="project-card-container">
+                                <ProjectCard
+                                    title={project.title}
+                                    description={project.description}
+                                    tags={project.techStack}
+                                    imageUrl={project.imageUrls[0]}
+                                    demoUrl="#" // Not in DB yet, keeping placeholders
+                                    repoUrl="#"
+                                />
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </section>
     );
 }
+

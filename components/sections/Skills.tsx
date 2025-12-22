@@ -1,15 +1,20 @@
 "use client";
 
 import { useGSAP } from "@/hooks/useGSAP";
-import { SKILLS_DATA } from "@/lib/data";
 import SkillPill from "@/components/ui/SkillPill";
 import gsap from "gsap";
 import { useRef } from "react";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Skills() {
     const containerRef = useRef<HTMLElement>(null);
+    const { data: skills, error, isLoading } = useSWR("/api/skills", fetcher);
 
     useGSAP(() => {
+        if (!skills) return;
+
         gsap.from(".skill-category", {
             scrollTrigger: {
                 trigger: containerRef.current,
@@ -23,7 +28,9 @@ export default function Skills() {
             stagger: 0.1,
             ease: "power2.out",
         });
-    }, []);
+    }, [skills]);
+
+    if (error) return null;
 
     return (
         <section
@@ -37,24 +44,38 @@ export default function Skills() {
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    {SKILLS_DATA.map((category, idx) => (
-                        <div key={idx} className="skill-category space-y-6">
-                            <h3 className="text-2xl font-semibold text-zinc-400 dark:text-zinc-500">
-                                {category.category}
-                            </h3>
-                            <div className="flex flex-wrap gap-3">
-                                {category.items.map((skill) => (
-                                    <SkillPill
-                                        key={skill.name}
-                                        name={skill.name}
-                                        startDate={skill.startDate}
-                                    />
-                                ))}
+                    {isLoading ? (
+                        [1, 2, 3, 4].map((i) => (
+                            <div key={i} className="space-y-6 animate-pulse">
+                                <div className="h-8 w-32 rounded bg-zinc-200 dark:bg-zinc-800" />
+                                <div className="flex flex-wrap gap-3">
+                                    {[1, 2, 3, 4, 5].map((j) => (
+                                        <div key={j} className="h-10 w-24 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        (skills as { category: string; items: { name: string; startDate: string }[] }[])?.map((category, idx) => (
+                            <div key={idx} className="skill-category space-y-6">
+                                <h3 className="text-2xl font-semibold text-zinc-400 dark:text-zinc-500">
+                                    {category.category}
+                                </h3>
+                                <div className="flex flex-wrap gap-3">
+                                    {category.items.map((skill) => (
+                                        <SkillPill
+                                            key={skill.name}
+                                            name={skill.name}
+                                            startDate={skill.startDate}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </section>
     );
 }
+

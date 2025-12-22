@@ -59,8 +59,23 @@ export default function Hero() {
                 <div className="h-10 w-[1px] bg-zinc-400"></div>
             </div>
 
+            {/* Background Video */}
+            <div className="absolute inset-0 -z-20 overflow-hidden">
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="h-full w-full object-cover opacity-20 transition-opacity duration-1000"
+                    poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000"
+                >
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-flowing-dark-particles-30042-large.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
+            </div>
+
             {/* Background Gradient Blob */}
-            <div className="absolute top-1/2 left-1/2 -z-10 h-[50vw] w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/20 blur-[100px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -z-10 h-[50vw] w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/10 blur-[100px] pointer-events-none" />
         </section>
     );
 }
